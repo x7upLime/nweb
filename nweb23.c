@@ -16,6 +16,15 @@
 #define FORBIDDEN 403
 #define NOTFOUND  404
 
+#define LOG_PREFIX_EMERG	"<1>"
+#define LOG_PREFIX_ALERT	"<2>"
+#define LOG_PREFIX_CRIT		"<3>"
+#define LOG_PREFIX_ERR		"<4>"
+#define LOG_PREFIX_WARNING	"<5>"
+#define LOG_PREFIX_NOTICE	"<6>"
+#define LOG_PREFIX_INFO		"<7>"
+#define LOG_PREFIX_DEBUG	"<8>"
+
 #ifndef SIGCLD
 #   define SIGCLD SIGCHLD
 #endif
