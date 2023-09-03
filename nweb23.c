@@ -9,6 +9,8 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <pwd.h>
+#include <grp.h>
 #define VERSION 23
 #define BUFSIZE 8096
 #define ERROR      42
@@ -142,12 +144,51 @@ void web(int fd, int hit)
   exit(1);
 }
 
+void
+printCredentials()
+{
+  uid_t euid;
+  gid_t egid;
+
+  struct passwd *pwd;
+  struct group *grp;
+
+  euid = geteuid();
+  egid = getegid();
+
+  pwd = getpwuid(euid);
+  if (pwd == NULL) {
+    printf(LOG_PREFIX_CRIT "unable to get passwd entry\n");
+    exit(1);
+  }
+  
+  grp = getgrgid(egid);
+  if (grp == NULL) {
+    printf(LOG_PREFIX_CRIT "unable to get group entry\n");
+    exit(1);
+  }
+
+  printf(LOG_PREFIX_NOTICE "Running as user:  %s(%d)\n", pwd->pw_name, euid);
+  printf(LOG_PREFIX_NOTICE "Running as group: %s(%d)\n", grp->gr_name, egid);
+  
+  return;
+}
+
+void
+printWelcome()
+{
+  printf(LOG_PREFIX_NOTICE "Hello, world!\n");
+  printCredentials();
+}
+
 int main(int argc, char **argv)
 {
   int i, port, pid, listenfd, socketfd, hit;
   socklen_t length;
   static struct sockaddr_in cli_addr; /* static = initialised to zeros */
   static struct sockaddr_in serv_addr; /* static = initialised to zeros */
+
+  printWelcome();
 
   if( argc < 3  || argc > 3 || !strcmp(argv[1], "-?") ) {
     (void)printf("hint: nweb Port-Number Top-Directory\t\tversion %d\n\n"
