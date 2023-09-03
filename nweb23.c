@@ -224,9 +224,6 @@ int main(int argc, char **argv)
   (void)signal(SIGCLD, SIG_IGN); /* ignore child death */
   (void)signal(SIGHUP, SIG_IGN); /* ignore terminal hangups */
   
-  for(i=0;i<32;i++)
-    (void)close(i);    /* close open files */
-  
   (void)setpgrp();    /* break away from process group */
   
   logger(LOG,"nweb starting",argv[1],getpid());
