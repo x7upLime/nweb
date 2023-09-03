@@ -1,0 +1,9 @@
+[Unit]
+Description=A small file webserver
+
+[Service]
+ExecStart=/usr/bin/nweb 80 /root/serveDir
+Type=forking
+
+[Install]
+WantedBy=network.target
