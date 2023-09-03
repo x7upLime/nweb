@@ -1,8 +1,8 @@
 [Unit]
-Description=A small file webserver
+Description=A simple static file webserver
 
 [Service]
-ExecStart=/usr/bin/nweb 80 /root/serveDir
+ExecStart=/usr/bin/nweb 80 /srv/nweb
 Type=forking
 
 [Install]
